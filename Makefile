@@ -9,6 +9,7 @@ install-all: ## install all [ args : OS ]
 	make set-zsh-as-default
 	make install-font
 	make install-starship
+	make install-colorls
 	make clone-repos
 	make setup-starship
 	make setup-powerlevel10k-theme
@@ -46,12 +47,22 @@ setup-starship: ## copy starship.toml to ~/.config/starship.toml
 setup-powerlevel10k-theme: ## copy .p10k.zsh to ~/
 	cp .p10k.zsh ~/.p10k.zsh
 
+install-colorls: ## setup colorls
+	sudo gem install colorls
+	@if ! grep -q 'colorls' ~/.zshrc; then \
+		echo "Updating PATH to include colorls..."; \
+		echo 'export PATH=$$PATH:$(ruby -e "puts Gem.bindir")' >> ~/.zshrc; \
+	else \
+		echo "colorls already in PATH"; \
+	fi
+
 setup-zsh: ## create .zsh-config and update .zshrc to source it
 	cp -r .zsh-config ~/.zsh-config
 	@echo "Updating .zshrc to source .zsh-config..."
 	@if grep -q '.zsh-config' ~/.zshrc; then \
 	echo '.zsh-config already sourced in .zshrc'; \
 	else \
+	echo '' >> ~/.zshrc; \
 	echo 'source ~/.zsh-config' >> ~/.zshrc; \
 	fi
 	@echo "Setup completed!!! Please restart your terminal"
@@ -60,6 +71,7 @@ remove-all: ## remove all custom configurations and installations
 	make remove-zsh-config
 	make uninstall-font
 	make uninstall-starship
+	make uninstall-colorls
 	make remove-cloned-repos
 	make remove-powerlevel10k
 	make remove-zsh
@@ -85,6 +97,11 @@ uninstall-font: ## uninstall font, using FONT_NAME_CODE
 uninstall-starship: ## uninstall starship
 	@echo "Uninstalling starship..."
 	brew uninstall starship
+
+uninstall-colorls: ## uninstall colorls
+	yes | sudo gem uninstall colorls
+	@echo "Removing colorls from PATH..."
+	@sed -i '' '/colorls/d' ~/.zshrc
 
 remove-cloned-repos: ## remove cloned repos
 	@echo "Removing cloned repositories..."
