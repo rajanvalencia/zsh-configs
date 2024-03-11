@@ -35,7 +35,9 @@ clone-repos: ## clone repos
 	@mkdir -p ~/.zsh && \
 	cd ~/.zsh && \
 	git clone https://github.com/zsh-users/zsh-autosuggestions && \
-	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git && \
+	git clone https://github.com/dracula/powerlevel10k.git powerlevel10k-dracula && \
+	git clone https://github.com/romkatv/powerlevel10k.git
 
 setup-starship: ## copy starship.toml to ~/.config/starship.toml
 	cp starship.toml ~/.config/starship.toml
@@ -48,15 +50,14 @@ setup-zsh: ## create .zsh-config and update .zshrc to source it
 	else \
 	echo 'source ~/.zsh-config' >> ~/.zshrc; \
 	fi
-	@echo "Setup completed!!! Please restart your terminal or run:"
-	@echo "\tsource ~/.zshrc"
+	@echo "Setup completed!!! Please restart your terminal"
 
 remove-all: ## remove all custom configurations and installations
 	make remove-zsh-config
-	make unset-zsh-as-default
 	make uninstall-font
 	make uninstall-starship
 	make remove-cloned-repos
+	make remove-powerlevel10k
 	make remove-zsh
 
 remove-starship-config: ## remove starship config
@@ -85,6 +86,12 @@ remove-cloned-repos: ## remove cloned repos
 	@echo "Removing cloned repositories..."
 	rm -rf ~/.zsh/zsh-autosuggestions
 	rm -rf ~/.zsh/zsh-syntax-highlighting
+	rm -rf ~/.zsh/powerlevel10k
+	rm -rf ~/.zsh/powerlevel10k
+
+remove-powerlevel10k: ## remove powerlevel10k
+	@echo "Removing powerlevel10k..."
+	rm -rf ~/.p10k.zsh
 
 remove-zsh: ## uninstall zsh
 	@echo "Uninstalling zsh..."

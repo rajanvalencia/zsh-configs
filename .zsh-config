@@ -13,9 +13,17 @@ compinit
 # colour of dir
 alias ls="ls --color"
 
-#syntax highlighting extension
+# syntax highlighting extension
 source "${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-#auto suggestion
+
+# auto suggestion
 source "${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
-#starship init
+
+# theme
+source "${HOME}/.zsh/powerlevel10k/powerlevel10k.zsh-theme"
+
+# powerlevel10k theme
+cp -rf "${HOME}/.zsh/powerlevel10k-dracula/files/.p10k.zsh" "${HOME}/.p10k.zsh"
+
+# starship init
 eval "$(starship init zsh)"
