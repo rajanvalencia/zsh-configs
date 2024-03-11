@@ -10,6 +10,7 @@ install-all: ## install all [ args : OS ]
 	make install-font
 	make install-starship
 	make clone-repos
+	make setup-starship
 	make setup-zsh
 
 install-zsh: ## install zsh
@@ -57,6 +58,10 @@ remove-all: ## remove all custom configurations and installations
 	make uninstall-starship
 	make remove-cloned-repos
 	make remove-zsh
+
+remove-starship-config: ## remove starship config
+	@echo "Removing starship config..."
+	rm -f ~/.config/starship.toml
 
 remove-zsh-config: ## remove .zsh-config and update .zshrc to not source it
 	@echo "Removing .zsh-config..."
