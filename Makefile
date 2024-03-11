@@ -11,6 +11,7 @@ install-all: ## install all [ args : OS ]
 	make install-starship
 	make clone-repos
 	make setup-starship
+	make setup-powerlevel10k-theme
 	make setup-zsh
 
 install-zsh: ## install zsh
@@ -41,6 +42,9 @@ clone-repos: ## clone repos
 
 setup-starship: ## copy starship.toml to ~/.config/starship.toml
 	cp starship.toml ~/.config/starship.toml
+
+setup-powerlevel10k-theme: ## copy .p10k.zsh to ~/
+	cp .p10k.zsh ~/.p10k.zsh
 
 setup-zsh: ## create .zsh-config and update .zshrc to source it
 	cp -r .zsh-config ~/.zsh-config
@@ -86,7 +90,7 @@ remove-cloned-repos: ## remove cloned repos
 	@echo "Removing cloned repositories..."
 	rm -rf ~/.zsh/zsh-autosuggestions
 	rm -rf ~/.zsh/zsh-syntax-highlighting
-	rm -rf ~/.zsh/powerlevel10k
+	rm -rf ~/.zsh/powerlevel10k-dracula
 	rm -rf ~/.zsh/powerlevel10k
 
 remove-powerlevel10k: ## remove powerlevel10k
