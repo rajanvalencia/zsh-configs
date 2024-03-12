@@ -39,7 +39,9 @@ clone-repos: ## clone repos
 	git clone https://github.com/zsh-users/zsh-autosuggestions && \
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git && \
 	git clone https://github.com/dracula/powerlevel10k.git powerlevel10k-dracula && \
-	git clone https://github.com/romkatv/powerlevel10k.git
+	git clone https://github.com/romkatv/powerlevel10k.git && \
+	git clone https://github.com/dracula/colorls.git
+
 
 setup-starship: ## copy starship.toml to ~/.config/starship.toml
 	cp starship.toml ~/.config/starship.toml
@@ -59,6 +61,12 @@ install-colorls: ## setup colorls
 setup-zsh: ## create .zsh-config and update .zshrc to source it
 	cp -r .zsh-config ~/.zsh-config
 	@echo "Updating .zshrc to source .zsh-config..."
+	@if grep -q 'colorls --dark --tree=1' ~/.zshrc; then \
+	echo 'colorls alias already set in .zshrc'; \
+	else \
+	echo '' >> ~/.zshrc; \
+	echo 'alias ls="colorls --dark --tree=1"' >> ~/.zshrc; \
+	fi
 	@if grep -q '.zsh-config' ~/.zshrc; then \
 	echo '.zsh-config already sourced in .zshrc'; \
 	else \
@@ -109,6 +117,7 @@ remove-cloned-repos: ## remove cloned repos
 	rm -rf ~/.zsh/zsh-syntax-highlighting
 	rm -rf ~/.zsh/powerlevel10k-dracula
 	rm -rf ~/.zsh/powerlevel10k
+	rm -rf ~/.zsh/colorls
 
 remove-powerlevel10k: ## remove powerlevel10k
 	@echo "Removing powerlevel10k..."

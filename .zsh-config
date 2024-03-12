@@ -7,12 +7,6 @@ bindkey -e
 # The following lines were added by compinstall
 zstyle :compinstall filename '~/.zshrc'
 
-autoload -Uz compinit
-compinit
-# End of lines added by compinstall
-# colour of dir
-alias ls="ls --color"
-
 # syntax highlighting extension
 source "${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
@@ -24,6 +18,11 @@ source "${HOME}/.zsh/powerlevel10k/powerlevel10k.zsh-theme"
 
 # powerlevel10k theme
 cp -rf "${HOME}/.zsh/powerlevel10k-dracula/files/.p10k.zsh" "${HOME}/.p10k.zsh"
+
+# colorls theme
+cp -rf "${HOME}/.zsh/colorls/dark_colors.yaml" "${HOME}/.config/colorls/dark_colors.yaml"
+
+
 
 # starship init
 eval "$(starship init zsh)"
