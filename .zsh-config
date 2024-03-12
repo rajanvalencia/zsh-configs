@@ -22,7 +22,5 @@ cp -rf "${HOME}/.zsh/powerlevel10k-dracula/files/.p10k.zsh" "${HOME}/.p10k.zsh"
 # colorls theme
 cp -rf "${HOME}/.zsh/colorls/dark_colors.yaml" "${HOME}/.config/colorls/dark_colors.yaml"
 
-
-
 # starship init
 eval "$(starship init zsh)"

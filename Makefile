@@ -42,12 +42,11 @@ clone-repos: ## clone repos
 	git clone https://github.com/romkatv/powerlevel10k.git && \
 	git clone https://github.com/dracula/colorls.git
 
-
 setup-starship: ## copy starship.toml to ~/.config/starship.toml
 	cp starship.toml ~/.config/starship.toml
 
 setup-powerlevel10k-theme: ## copy .p10k.zsh to ~/
-	cp .p10k.zsh ~/.p10k.zsh
+	cp -rf .p10k.zsh ~/.p10k.zsh
 
 install-colorls: ## setup colorls
 	sudo gem install colorls
