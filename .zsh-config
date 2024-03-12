@@ -13,11 +13,8 @@ source "${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 # auto suggestion
 source "${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
-# theme
+# powerlevel10k
 source "${HOME}/.zsh/powerlevel10k/powerlevel10k.zsh-theme"
-
-# powerlevel10k theme
-cp -rf "${HOME}/.zsh/powerlevel10k-dracula/files/.p10k.zsh" "${HOME}/.p10k.zsh"
 
 # colorls theme
 cp -rf "${HOME}/.zsh/colorls/dark_colors.yaml" "${HOME}/.config/colorls/dark_colors.yaml"

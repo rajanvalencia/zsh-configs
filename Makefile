@@ -38,7 +38,6 @@ clone-repos: ## clone repos
 	cd ~/.zsh && \
 	git clone https://github.com/zsh-users/zsh-autosuggestions && \
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git && \
-	git clone https://github.com/dracula/powerlevel10k.git powerlevel10k-dracula && \
 	git clone https://github.com/romkatv/powerlevel10k.git && \
 	git clone https://github.com/dracula/colorls.git
 
@@ -114,7 +113,6 @@ remove-cloned-repos: ## remove cloned repos
 	@echo "Removing cloned repositories..."
 	rm -rf ~/.zsh/zsh-autosuggestions
 	rm -rf ~/.zsh/zsh-syntax-highlighting
-	rm -rf ~/.zsh/powerlevel10k-dracula
 	rm -rf ~/.zsh/powerlevel10k
 	rm -rf ~/.zsh/colorls
 
