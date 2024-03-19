@@ -1,12 +1,3 @@
-# Lines configured by zsh-newuser-install
-HISTFILE=~/.histfile
-HISTSIZE=1000
-SAVEHIST=1000
-bindkey -e
-# End of lines configured by zsh-newuser-install
-# The following lines were added by compinstall
-zstyle :compinstall filename '~/.zshrc'
-
 # syntax highlighting extension
 source "${HOME}/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
@@ -16,8 +7,18 @@ source "${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
 # powerlevel10k
 source "${HOME}/.zsh/powerlevel10k/powerlevel10k.zsh-theme"
 
-# colorls theme
-cp -rf "${HOME}/.zsh/colorls/dark_colors.yaml" "${HOME}/.config/colorls/dark_colors.yaml"
+# Define the source and target directories
+source_dir="${HOME}/.zsh/colorls"
+target_dir="${HOME}/.config/colorls"
 
 # starship init
 eval "$(starship init zsh)"
+
+# Check if the target directory does not exist
+if [ ! -d "${target_dir}" ]; then
+    # Create the target directory
+    mkdir -p "${target_dir}"
+fi
+
+# colorls theme
+cp -rf "${source_dir}/dark_colors.yaml" "${target_dir}/dark_colors.yaml"
