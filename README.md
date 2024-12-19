@@ -2,6 +2,8 @@
 
 My terminal configurations for MacOS
 
+![スクリーンショット 2024-12-20 午前3 21 57](https://github.com/user-attachments/assets/5baaf1cf-6ce7-4928-979f-5a41f844eb93)
+
 ## Installation
 
 1. Install [Homebrew](https://brew.sh/)
