@@ -182,7 +182,7 @@
 
   #################################[ os_icon: os identifier ]##################################
   # OS identifier color.
-  typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND=15
+  typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND=3
   typeset -g POWERLEVEL9K_OS_ICON_BACKGROUND=8
 
   # Custom icon.
@@ -213,7 +213,7 @@
 
   ##################################[ dir: current directory ]##################################
   # Current directory background color.
-  typeset -g POWERLEVEL9K_DIR_BACKGROUND=6
+  typeset -g POWERLEVEL9K_DIR_BACKGROUND=11
   # Default current directory foreground color.
   typeset -g POWERLEVEL9K_DIR_FOREGROUND=0
   # If directory is too long, shorten some of its segments to the shortest possible unique
