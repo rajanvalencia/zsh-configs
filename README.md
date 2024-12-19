@@ -8,7 +8,11 @@ My terminal configurations for MacOS
 
 2. Install Dracula theme [Dracula](https://draculatheme.com/terminal)
 
-3. Install font
+3. Set theme
+
+  ![スクリーンショット 2024-12-20 午前3 11 11](https://github.com/user-attachments/assets/f147598e-4472-40de-b719-00a62a13078a)
+
+4. Install font
 
 ```bash
 make install-font
@@ -16,7 +20,7 @@ make install-font
 
 <img width="1625" alt="terminal-settings" src="https://github.com/rajanvalencia/zsh-configs/assets/47655366/2bd373a2-38f7-43b6-9ec1-2986e441cd9f">
 
-4. Install
+5. Install
 
 ```bash
 make install-all
