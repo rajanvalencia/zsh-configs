@@ -1,4 +1,4 @@
-# zsh-configs
+# zsh-configs for MacOS
 
 My terminal configurations for MacOS
 
@@ -34,4 +34,16 @@ make help
 make remove-all
 ```
 
-Inspired from [BishwasKoirala/zsh-configs](https://github.com/BishwasKoirala/zsh-configs)
+## Change colors
+Open `~/.p10k.zsh` and find the following lines. Change the colors by changing the values.
+```bash
+# OS identifier color.
+typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND=15
+typeset -g POWERLEVEL9K_OS_ICON_BACKGROUND=8
+
+# Current directory background color.
+typeset -g POWERLEVEL9K_DIR_BACKGROUND=6
+# Default current directory foreground color.
+typeset -g POWERLEVEL9K_DIR_FOREGROUND=0
+
+```
