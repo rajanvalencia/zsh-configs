@@ -30,7 +30,6 @@ install-starship: ## install starship
 
 install-font: ## install font [ args : FONT_NAME_CODE ]
 	@echo "Installing fonts..."
-	brew tap homebrew/cask-fonts
 	brew install --cask $(FONT_NAME_CODE)
 
 clone-repos: ## clone repos
@@ -98,6 +97,7 @@ unset-zsh-as-default: ## reset default shell, assume bash as default
 
 uninstall-font: ## uninstall font, using FONT_NAME_CODE
 	@echo "Uninstalling font..."
+	brew install --cask font-hack-nerd-font
 	brew uninstall --cask $(FONT_NAME_CODE)
 
 uninstall-starship: ## uninstall starship
