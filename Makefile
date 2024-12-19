@@ -11,7 +11,6 @@ install-font: ## install font [ args : FONT_NAME_CODE ]
 install-all: ## install all [ args : OS ]
 	make install-zsh
 	make set-zsh-as-default
-	make install-font
 	make install-bat
 	make install-starship
 	make install-colorls
@@ -25,8 +24,13 @@ install-all: ## install all [ args : OS ]
 configure-design: ## configure terminal design
 	@cd && p10k configure
 
-make update-xcode: ## update xcode
-	@xcode-select --install
+install-command-line-tools: ## install command line tools
+	@echo "Installing command line tools..."
+	@if ! xcode-select -p > /dev/null 2>&1; then \
+		xcode-select --install; \
+	else \
+		echo "Command line tools are already installed."; \
+	fi
 
 install-zsh: ## install zsh
 	@echo "Installing zsh..."
@@ -60,7 +64,10 @@ setup-powerlevel10k-theme: ## copy .p10k.zsh to ~/
 	@cp -rf .p10k.zsh ~/.p10k.zsh
 
 install-colorls: ## setup colorls
-	@sudo gem install colorls
+	@echo "Installing colorls..."
+	@make install-command-line-tools
+	@brew install ruby
+	@sudo gem install colorls -n /usr/local/bin
 	@if ! grep -q 'colorls' ~/.zshrc; then \
 		echo "Updating PATH to include colorls..."; \
 		echo 'export PATH=$$PATH:$(ruby -e "puts Gem.bindir")' >> ~/.zshrc; \
@@ -90,7 +97,6 @@ run-zshrc: ## run .zshrc
 
 remove-all: ## remove all custom configurations and installations
 	make remove-zsh-config
-	make uninstall-font
 	make uninstall-starship
 	make uninstall-colorls
 	make remove-cloned-repos
