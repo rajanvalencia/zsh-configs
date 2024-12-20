@@ -34,12 +34,6 @@ make install-all
 make help
 ```
 
-## Remove
-
-```bash
-make remove-all
-```
-
 ## Change colors
 Open `~/.p10k.zsh` and find the following lines. Change the colors by changing the values from 0 to 15
 ```bash
