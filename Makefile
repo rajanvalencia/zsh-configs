@@ -25,8 +25,8 @@ install-all: ## install all [ args : OS ]
 	@make setup-starship
 	@make setup-powerlevel10k-theme
 	@make setup-zsh-2
-	@source ~/.zshrc
 	@make text-success MESSAGE="Task completed!! Please restart your terminal"
+	@source ~/.zshrc
 
 remove-all: ## remove all custom configurations and installations
 	@make remove-zsh-config
@@ -35,8 +35,8 @@ remove-all: ## remove all custom configurations and installations
 	@make remove-cloned-repos
 	@make remove-powerlevel10k
 	@make remove-zsh
-	@source ~/.zshrc
 	@make text-success MESSAGE="Task completed!! Please restart your terminal"
+	@source ~/.zshrc
 
 install-command-line-tools: ## install command line tools
 	@make text-info MESSAGE="Installing command line tools..."
