@@ -30,6 +30,10 @@ make install-font
 make install-all
 ```
 
+### Restart your terminal and enjoy🎉
+
+---
+
 ## Help
 
 ```bash
