@@ -22,13 +22,9 @@ make install-font
 
 5. Set font
 
+  ![スクリーンショット 2024-12-23 午前7 00 53](https://github.com/user-attachments/assets/702ae15b-ab74-48e0-9b57-204608735713)
 
-6. Install and upgrade ruby
-```
-make install-ruby
-```
-
-7. Install all
+6. Install all
 
 ```bash
 make install-all
