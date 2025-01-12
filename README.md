@@ -40,11 +40,13 @@ make install-ruby
 make install-all
 ```
 
-8. Change VSCode Terminal Font to Hack Nerd Font
+8. Restart terminal
+
+9. Change VSCode Terminal Font to Hack Nerd Font
 
 ![スクリーンショット 2025-01-12 午後6 25 44](https://github.com/user-attachments/assets/50d8535c-4a22-43c9-9775-07ff7b40fabf)
 
-### Restart your terminal and enjoy🎉
+Enjoy🎉
 
 ---
 
