@@ -16,7 +16,6 @@ install-all: ## install all [ args : OS ]
 	@make install-zsh
 	@make set-zsh-as-default
 	@make setup-zsh-1
-	@make install-ruby
 	@make install-bat
 	@make install-starship
 	@make install-colorls
