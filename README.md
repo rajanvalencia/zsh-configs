@@ -24,13 +24,23 @@ make install-font
 
   ![スクリーンショット 2024-12-23 午前7 00 53](https://github.com/user-attachments/assets/702ae15b-ab74-48e0-9b57-204608735713)
 
-6. Install all
+6. Check Ruby version and upgrade
+```
+ruby -v
+```
+
+If below 3.0
+```
+make install-ruby
+```
+
+7. Install all
 
 ```bash
 make install-all
 ```
 
-7. Change VSCode Terminal Font to Hack Nerd Font
+8. Change VSCode Terminal Font to Hack Nerd Font
 
 ![スクリーンショット 2025-01-12 午後6 25 44](https://github.com/user-attachments/assets/50d8535c-4a22-43c9-9775-07ff7b40fabf)
 
