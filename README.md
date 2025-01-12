@@ -30,6 +30,10 @@ make install-font
 make install-all
 ```
 
+7. Change VSCode Terminal Font to Hack Nerd Font
+
+![スクリーンショット 2025-01-12 午後6 25 44](https://github.com/user-attachments/assets/50d8535c-4a22-43c9-9775-07ff7b40fabf)
+
 ### Restart your terminal and enjoy🎉
 
 ---
