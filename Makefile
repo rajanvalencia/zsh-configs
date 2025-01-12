@@ -1,9 +1,9 @@
 FONT_NAME_CODE=font-hack-nerd-font
 RUBY_VERSION=3.3.6
 
-help: ## help
+help: ## Display available commands
 	@echo "------- Commands ------"
-	@grep '^[0-9a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36mmake %-25s\033[0m %s\n", $$1, $$2}'
+	@grep -E '^[a-zA-Z0-9_-]+:.*## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*## "}; {printf "\033[36mmake %-25s\033[0m %s\n", $$1, $$2}'
 
 install-font: ## install font [ args : FONT_NAME_CODE ]
 	@make text-info MESSAGE="Installing fonts..."
