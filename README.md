@@ -32,6 +32,7 @@ ruby -v
 If below 3.0
 ```
 make install-ruby
+source ~/.zshrc
 ```
 
 7. Install all
