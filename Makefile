@@ -61,6 +61,8 @@ set-zsh-as-default: ## set zsh as default shell
 	@make text-success MESSAGE="ZSH set as default shell successfully"
 
 install-ruby: ## install ruby [ args : RUBY_VERSION ]
+	@make install-zsh
+	@make set-zsh-as-default
 	@make text-info MESSAGE="Installing ruby..."
 	@brew install ruby
 	@make text-info MESSAGE="Installing rbenv..."
