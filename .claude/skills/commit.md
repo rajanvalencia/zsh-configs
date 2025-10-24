@@ -18,4 +18,3 @@ Create a git commit without Claude Code attribution.
 - NO attribution footers whatsoever
 - Keep the commit message exactly as the user provides
 - This is for when the user wants full credit for the changes
-- Don't use heredoc or multi-line commit format unless the user specifically requests it
