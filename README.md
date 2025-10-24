@@ -78,8 +78,17 @@ make setup-powerlevel10k-theme && source ~/.zshrc
 ## Troubleshooting
 
 ### colorls not found or gem error
-If you see an error like `can't find gem colorls`, you may have an old colorls installation in `/usr/local/bin/`. Remove it with:
+If you see an error like `can't find gem colorls`, you have a conflict between an old system-wide colorls installation and the rbenv version.
+
+**Quick fix:**
+```bash
+make fix-colorls
+```
+
+**Manual fix:**
 ```bash
 sudo rm /usr/local/bin/colorls
+make install-colorls
 ```
-Then reinstall colorls with `make install-colorls`
+
+This removes the old installation and reinstalls colorls properly via rbenv.

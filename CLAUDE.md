@@ -13,6 +13,7 @@ This is a macOS terminal configuration repository that sets up a customized zsh 
 make install-all     # Full installation (installs zsh, plugins, fonts, themes)
 make install-font    # Install Hack Nerd Font only
 make install-ruby    # Install Ruby 3.3.6 via rbenv (required for colorls)
+make fix-colorls     # Fix colorls gem conflicts (if you get gem errors)
 make help            # Show all available commands
 ```
 

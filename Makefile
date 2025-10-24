@@ -28,7 +28,7 @@ BASH_SHELL := /bin/bash
 # ============================================================================
 .PHONY: help install-all remove-all install-font uninstall-font \
         install-command-line-tools brew-update install-zsh set-zsh-as-default unset-zsh-as-default remove-zsh \
-        install-ruby install-bat uninstall-bat install-starship uninstall-starship install-colorls uninstall-colorls \
+        install-ruby install-bat uninstall-bat install-starship uninstall-starship install-colorls uninstall-colorls fix-colorls \
         clone-repos remove-cloned-repos setup-starship remove-starship-config setup-powerlevel10k-theme remove-powerlevel10k \
         setup-zsh-1 setup-zsh-2 remove-zsh-config configure-design \
         text-info text-success text-warning text-error
@@ -172,20 +172,41 @@ uninstall-starship: ## Uninstall Starship prompt
 
 install-colorls: ## Install colorls Ruby gem
 	@make text-info MESSAGE="Installing colorls..."
-	@if command -v colorls > /dev/null 2>&1; then \
-		make text-warning MESSAGE="colorls is already installed"; \
-	else \
-		echo "\033[1;34m[INFO]\033[0m colorls not found. Installing to rbenv gem directory..."; \
-		gem install colorls 2>&1 | grep -v "ERROR:" | grep -v "You don't have write permissions" || true; \
-		rbenv rehash; \
+	@if [ -f /usr/local/bin/colorls ]; then \
+		make text-warning MESSAGE="Removing old colorls installation from /usr/local/bin..."; \
+		sudo rm -f /usr/local/bin/colorls || true; \
+	fi
+	@make text-info MESSAGE="Installing colorls gem via rbenv..."
+	@gem install colorls 2>&1 | grep -v "ERROR:" | grep -v "You don't have write permissions" || true
+	@rbenv rehash
+	@if command -v colorls > /dev/null 2>&1 && colorls --version > /dev/null 2>&1; then \
 		make text-success MESSAGE="colorls installed successfully"; \
+	else \
+		make text-error MESSAGE="colorls installation failed - please check rbenv setup"; \
+		exit 1; \
 	fi
 
 uninstall-colorls: ## Uninstall colorls Ruby gem
 	@make text-info MESSAGE="Uninstalling colorls..."
-	@gem uninstall -x colorls
+	@gem uninstall -x colorls || true
 	@rbenv rehash
+	@if [ -f /usr/local/bin/colorls ]; then \
+		make text-warning MESSAGE="Removing old colorls installation from /usr/local/bin..."; \
+		sudo rm -f /usr/local/bin/colorls || true; \
+	fi
 	@make text-success MESSAGE="colorls uninstalled successfully"
+
+fix-colorls: ## Fix colorls gem conflicts (removes old installation and reinstalls)
+	@make text-info MESSAGE="Fixing colorls installation conflicts..."
+	@if [ -f /usr/local/bin/colorls ]; then \
+		make text-warning MESSAGE="Removing conflicting colorls from /usr/local/bin..."; \
+		sudo rm -f /usr/local/bin/colorls; \
+	fi
+	@make text-info MESSAGE="Reinstalling colorls via rbenv..."
+	@gem uninstall -x colorls 2>/dev/null || true
+	@gem install colorls 2>&1 | grep -v "ERROR:" | grep -v "You don't have write permissions" || true
+	@rbenv rehash
+	@make text-success MESSAGE="colorls fixed! Try running 'colorls --version' to verify"
 
 # ============================================================================
 # Plugin Repositories
