@@ -29,7 +29,7 @@ make install-font
 ruby -v
 ```
 
-If below 3.0
+If below 3.0 (this will install Ruby 3.3.6)
 ```
 make install-ruby
 source ~/.zshrc

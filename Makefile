@@ -89,7 +89,7 @@ install-starship: ## install starship
 clone-repos: ## clone repos
 	@mkdir -p ~/.zsh && \
 	cd ~/.zsh && \
-	git clone https://github.com/zsh-users/zsh-autosuggestions && \
+	git clone https://github.com/zsh-users/zsh-autosuggestions.git && \
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git && \
 	git clone https://github.com/romkatv/powerlevel10k.git && \
 	git clone https://github.com/dracula/colorls.git
@@ -106,7 +106,7 @@ install-colorls: ## setup colorls
 	@make text-info MESSAGE="Installing colorls..."
 	@sudo gem install colorls -n /usr/local/bin
 
-setup-zsh-1: ## create .zsh-config and update .zshrc to source it
+setup-zsh-1: ## add rbenv PATH to .zshrc
 	@make text-info MESSAGE="Ensuring rbenv PATH is in .zshrc..."
 	@if grep -q 'export PATH="$$HOME/.rbenv/shims:$$PATH"' ~/.zshrc; then \
 		make text-warning MESSAGE="rbenv PATH already exists in .zshrc"; \
