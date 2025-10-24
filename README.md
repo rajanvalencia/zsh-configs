@@ -32,7 +32,7 @@ ruby -v
 If below 3.0 (this will install Ruby 3.3.6)
 ```
 make install-ruby
-source ~/.zshrc
+exec zsh
 ```
 
 7. Install all
@@ -41,7 +41,9 @@ source ~/.zshrc
 make install-all
 ```
 
-8. Restart terminal
+8. Activate configuration (choose one):
+   - Restart your terminal (recommended), OR
+   - Run `exec zsh`
 
 9. Change VSCode Terminal Font to Hack Nerd Font
 
@@ -72,7 +74,7 @@ typeset -g POWERLEVEL9K_DIR_FOREGROUND=0
 
 Run below to apply changes immediately
 ```bash
-make setup-powerlevel10k-theme && source ~/.zshrc
+make setup-powerlevel10k-theme && exec zsh
 ```
 
 ## Troubleshooting

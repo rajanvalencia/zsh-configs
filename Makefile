@@ -72,7 +72,13 @@ remove-all: ## Remove all custom configurations and installations
 	@make remove-cloned-repos
 	@make remove-powerlevel10k
 	@make remove-zsh
-	@make text-success MESSAGE="Removal complete! Please restart your terminal"
+	@echo ""
+	@make text-success MESSAGE="Removal complete!"
+	@echo ""
+	@echo "\033[1;33m[NEXT STEPS]\033[0m To complete the cleanup:"
+	@echo "  1. Restart your terminal (recommended), OR"
+	@echo "  2. Run: exec zsh"
+	@echo ""
 
 # ============================================================================
 # System Dependencies
