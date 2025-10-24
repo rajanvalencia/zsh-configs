@@ -108,8 +108,9 @@ install-colorls: ## setup colorls
 	@if command -v colorls > /dev/null 2>&1; then \
 		make text-warning MESSAGE="colorls is already installed"; \
 	else \
-		echo "[1;34m[INFO][0m colorls not found. Installing to user gem directory..."; \
-		gem install colorls; \
+		echo "[1;34m[INFO][0m colorls not found. Installing to rbenv gem directory..."; \
+		gem install colorls 2>&1 | grep -v "ERROR:" | grep -v "You don't have write permissions" || true; \
+		rbenv rehash; \
 		make text-success MESSAGE="colorls installed successfully"; \
 	fi
 
@@ -169,9 +170,9 @@ uninstall-starship: ## uninstall starship
 	@make text-success MESSAGE="Starship uninstalled successfully"
 
 uninstall-colorls: ## uninstall colorls
-	yes | sudo gem uninstall colorls
-	@make text-info MESSAGE="Removing colorls from PATH..."
-	@sed -i '' '/colorls/d' ~/.zshrc
+	@make text-info MESSAGE="Uninstalling colorls..."
+	@gem uninstall -x colorls
+	@rbenv rehash
 	@make text-success MESSAGE="Colorls uninstalled successfully"
 
 remove-cloned-repos: ## remove cloned repos

@@ -72,5 +72,14 @@ typeset -g POWERLEVEL9K_DIR_FOREGROUND=0
 
 Run below to apply changes immediately
 ```bash
-make setup-powerlevel10k-theme && source ~/.zshrc 
+make setup-powerlevel10k-theme && source ~/.zshrc
 ```
+
+## Troubleshooting
+
+### colorls not found or gem error
+If you see an error like `can't find gem colorls`, you may have an old colorls installation in `/usr/local/bin/`. Remove it with:
+```bash
+sudo rm /usr/local/bin/colorls
+```
+Then reinstall colorls with `make install-colorls`
