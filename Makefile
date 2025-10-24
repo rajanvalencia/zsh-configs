@@ -25,7 +25,6 @@ install-all: ## install all [ args : OS ]
 	@make setup-powerlevel10k-theme
 	@make setup-zsh-2
 	@make text-success MESSAGE="Task completed!! Please restart your terminal"
-	@source ~/.zshrc
 
 remove-all: ## remove all custom configurations and installations
 	@make remove-zsh-config
@@ -35,7 +34,6 @@ remove-all: ## remove all custom configurations and installations
 	@make remove-powerlevel10k
 	@make remove-zsh
 	@make text-success MESSAGE="Task completed!! Please restart your terminal"
-	@source ~/.zshrc
 
 install-command-line-tools: ## install command line tools
 	@make text-info MESSAGE="Installing command line tools..."
@@ -57,8 +55,12 @@ install-zsh: ## install zsh
 
 set-zsh-as-default: ## set zsh as default shell
 	@make text-info MESSAGE="Setting zsh as default shell..."
-	@chsh -s /bin/zsh
-	@make text-success MESSAGE="ZSH set as default shell successfully"
+	@if [ "$$SHELL" = "/bin/zsh" ]; then \
+		make text-warning MESSAGE="ZSH is already the default shell"; \
+	else \
+		chsh -s /bin/zsh; \
+		make text-success MESSAGE="ZSH set as default shell successfully"; \
+	fi
 
 install-ruby: ## install ruby [ args : RUBY_VERSION ]
 	@make install-zsh
@@ -71,7 +73,6 @@ install-ruby: ## install ruby [ args : RUBY_VERSION ]
 	@rbenv -v
 	@rbenv install $(RUBY_VERSION) --force
 	@rbenv global $(RUBY_VERSION)
-	@source ~/.zshrc
 	@make text-info MESSAGE="RUBY version"
 	@ruby -v
 	@make text-success MESSAGE="Ruby installed successfully"
@@ -104,7 +105,13 @@ setup-powerlevel10k-theme: ## copy .p10k.zsh to ~/
 
 install-colorls: ## setup colorls
 	@make text-info MESSAGE="Installing colorls..."
-	@sudo gem install colorls -n /usr/local/bin
+	@if command -v colorls > /dev/null 2>&1; then \
+		make text-warning MESSAGE="colorls is already installed"; \
+	else \
+		echo "[1;34m[INFO][0m colorls not found. Installing to user gem directory..."; \
+		gem install colorls; \
+		make text-success MESSAGE="colorls installed successfully"; \
+	fi
 
 setup-zsh-1: ## add rbenv PATH to .zshrc
 	@make text-info MESSAGE="Ensuring rbenv PATH is in .zshrc..."
@@ -139,8 +146,12 @@ remove-zsh-config: ## remove .zsh-config and update .zshrc to not source it
 
 unset-zsh-as-default: ## reset default shell, assume bash as default
 	@make text-info MESSAGE="Resetting default shell to bash..."
-	@chsh -s /bin/bash
-	@make text-success MESSAGE="Default shell reset successfully"
+	@if [ "$$SHELL" = "/bin/bash" ]; then \
+		make text-warning MESSAGE="Bash is already the default shell"; \
+	else \
+		chsh -s /bin/bash; \
+		make text-success MESSAGE="Default shell reset successfully"; \
+	fi
 
 uninstall-font: ## uninstall font, using FONT_NAME_CODE
 	@make text-info MESSAGE="Uninstalling font..."
