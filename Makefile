@@ -57,7 +57,13 @@ install-all: ## Install complete zsh environment
 	@make setup-starship
 	@make setup-powerlevel10k-theme
 	@make setup-zsh-2
-	@make text-success MESSAGE="Installation complete! Please restart your terminal"
+	@echo ""
+	@make text-success MESSAGE="Installation complete!"
+	@echo ""
+	@echo "\033[1;33m[NEXT STEPS]\033[0m To activate the new configuration:"
+	@echo "  1. Restart your terminal (recommended), OR"
+	@echo "  2. Run: exec zsh"
+	@echo ""
 
 remove-all: ## Remove all custom configurations and installations
 	@make remove-zsh-config
