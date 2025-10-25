@@ -13,6 +13,10 @@ ZSH_CONFIG := $(HOME_DIR)/.zsh-config
 P10K_CONFIG := $(HOME_DIR)/.p10k.zsh
 STARSHIP_CONFIG := $(CONFIG_DIR)/starship.toml
 
+# Homebrew and rbenv paths
+BREW_PREFIX := $(shell brew --prefix)
+RBENV := $(BREW_PREFIX)/bin/rbenv
+
 # Repository URLs
 REPO_AUTOSUGGESTIONS := https://github.com/zsh-users/zsh-autosuggestions.git
 REPO_SYNTAX_HIGHLIGHTING := https://github.com/zsh-users/zsh-syntax-highlighting.git
@@ -49,6 +53,7 @@ install-all: ## Install complete zsh environment
 	@make install-zsh
 	@make set-zsh-as-default
 	@make setup-zsh-1
+	@make install-ruby
 	@make install-bat
 	@make install-starship
 	@make install-colorls
@@ -152,11 +157,11 @@ install-ruby: ## Install Ruby via rbenv (args: RUBY_VERSION)
 	@make text-info MESSAGE="Installing rbenv..."
 	@brew install rbenv ruby-build
 	@make text-info MESSAGE="rbenv version:"
-	@rbenv -v
-	@rbenv install $(RUBY_VERSION) --force
-	@rbenv global $(RUBY_VERSION)
+	@$(RBENV) -v
+	@$(RBENV) install $(RUBY_VERSION) --force
+	@$(RBENV) global $(RUBY_VERSION)
 	@make text-info MESSAGE="Ruby version:"
-	@ruby -v
+	@$(RBENV) exec ruby -v
 	@make text-success MESSAGE="Ruby installed successfully"
 
 # ============================================================================
@@ -189,9 +194,9 @@ install-colorls: ## Install colorls Ruby gem
 		sudo rm -f /usr/local/bin/colorls || true; \
 	fi
 	@make text-info MESSAGE="Installing colorls gem via rbenv..."
-	@gem install colorls 2>&1 | grep -v "ERROR:" | grep -v "You don't have write permissions" || true
-	@rbenv rehash
-	@if command -v colorls > /dev/null 2>&1 && colorls --version > /dev/null 2>&1; then \
+	@$(RBENV) exec gem install colorls 2>&1 | grep -v "ERROR:" | grep -v "You don't have write permissions" || true
+	@$(RBENV) rehash
+	@if $(RBENV) exec colorls --version > /dev/null 2>&1; then \
 		make text-success MESSAGE="colorls installed successfully"; \
 	else \
 		make text-error MESSAGE="colorls installation failed - please check rbenv setup"; \
@@ -200,8 +205,8 @@ install-colorls: ## Install colorls Ruby gem
 
 uninstall-colorls: ## Uninstall colorls Ruby gem
 	@make text-info MESSAGE="Uninstalling colorls..."
-	@gem uninstall -x colorls || true
-	@rbenv rehash
+	@$(RBENV) exec gem uninstall -x colorls || true
+	@$(RBENV) rehash
 	@if [ -f /usr/local/bin/colorls ]; then \
 		make text-warning MESSAGE="Removing old colorls installation from /usr/local/bin..."; \
 		sudo rm -f /usr/local/bin/colorls || true; \
@@ -215,9 +220,9 @@ fix-colorls: ## Fix colorls gem conflicts (removes old installation and reinstal
 		sudo rm -f /usr/local/bin/colorls; \
 	fi
 	@make text-info MESSAGE="Reinstalling colorls via rbenv..."
-	@gem uninstall -x colorls 2>/dev/null || true
-	@gem install colorls 2>&1 | grep -v "ERROR:" | grep -v "You don't have write permissions" || true
-	@rbenv rehash
+	@$(RBENV) exec gem uninstall -x colorls 2>/dev/null || true
+	@$(RBENV) exec gem install colorls 2>&1 | grep -v "ERROR:" | grep -v "You don't have write permissions" || true
+	@$(RBENV) rehash
 	@make text-success MESSAGE="colorls fixed! Try running 'colorls --version' to verify"
 
 # ============================================================================
