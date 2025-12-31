@@ -6,57 +6,23 @@ My terminal configurations for MacOS (Terminal.app and iTerm2)
 
 1. Install [Homebrew](https://brew.sh/)
 
-2. Install Dracula theme
+2. Run installation
 
    **For Terminal.app:**
    ```bash
-   make install-dracula-terminal
+   make install-all
    ```
-   Then: Terminal → Settings → Profiles → Import `~/themes_terminal/dracula/Dracula.terminal`
 
    **For iTerm2:**
    ```bash
-   make install-dracula-iterm
-   ```
-   Then: iTerm2 → Settings → Profiles → Colors → Color Presets → Import `~/themes_iterm/dracula/Dracula.itermcolors`
-
-3. Install font
-
-   ```bash
-   make install-font
+   make install-all OPTION=iterm
    ```
 
-4. Set font
+3. Restart terminal and follow the printed instructions to import theme and set font
 
-   - **Terminal.app:** Terminal → Settings → Profiles → Text → Font → Hack Nerd Font
-   - **iTerm2:** iTerm2 → Settings → Profiles → Text → Font → Hack Nerd Font
-
-5. Check Ruby version and upgrade
-```
-ruby -v
-```
-
-If below 3.0 (this will install Ruby 3.3.6)
-```
-make install-ruby
-exec zsh
-```
-
-6. Install all
-
-```bash
-make install-all
-```
-
-7. Activate configuration (choose one):
-   - Restart your terminal (recommended), OR
-   - Run `exec zsh`
-
-8. Change VSCode Terminal Font to Hack Nerd Font
+4. (Optional) Set VSCode terminal font to "Hack Nerd Font"
 
 ![スクリーンショット 2025-01-12 午後6 25 44](https://github.com/user-attachments/assets/50d8535c-4a22-43c9-9775-07ff7b40fabf)
-
-Enjoy🎉
 
 ---
 

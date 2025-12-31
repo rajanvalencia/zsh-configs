@@ -52,7 +52,7 @@ help: ## Display available commands
 # ============================================================================
 # Main Installation & Removal Targets
 # ============================================================================
-install-all: ## Install complete zsh environment (OPTION=iterm2 for iTerm2)
+install-all: ## Install complete zsh environment (OPTION=iterm for iTerm2)
 	@make install-command-line-tools
 	@make brew-update
 	@make install-zsh
@@ -67,15 +67,18 @@ install-all: ## Install complete zsh environment (OPTION=iterm2 for iTerm2)
 	@make setup-starship
 	@make setup-powerlevel10k-theme
 	@make setup-zsh-2
-ifeq ($(OPTION),iterm2)
+	@make install-font
+ifeq ($(OPTION),iterm)
 	@make install-dracula-iterm
+else
+	@make install-dracula-terminal
 endif
 	@echo ""
 	@make text-success MESSAGE="Installation complete!"
 	@echo ""
 	@echo "\033[1;33m[NEXT STEPS]\033[0m To activate the new configuration:"
-	@echo "  1. Restart your terminal (recommended), OR"
-	@echo "  2. Run: exec zsh"
+	@echo "  1. Restart your terminal"
+	@echo "  2. Follow the theme and font setup instructions above"
 	@echo ""
 
 remove-all: ## Remove all custom configurations and installations
