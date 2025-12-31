@@ -79,6 +79,7 @@ endif
 	@echo "\033[1;33m[NEXT STEPS]\033[0m To activate the new configuration:"
 	@echo "  1. Restart your terminal"
 	@echo "  2. Follow the theme and font setup instructions above"
+	@echo "  3. Set VSCode terminal font to 'Hack Nerd Font'"
 	@echo ""
 
 remove-all: ## Remove all custom configurations and installations

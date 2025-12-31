@@ -18,9 +18,7 @@ My terminal configurations for MacOS (Terminal.app and iTerm2)
    make install-all OPTION=iterm
    ```
 
-3. Restart terminal and follow the printed instructions to import theme and set font
-
-4. (Optional) Set VSCode terminal font to "Hack Nerd Font"
+3. Restart terminal and follow the printed NEXT STEPS
 
 ![スクリーンショット 2025-01-12 午後6 25 44](https://github.com/user-attachments/assets/50d8535c-4a22-43c9-9775-07ff7b40fabf)
 
