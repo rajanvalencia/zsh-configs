@@ -1,30 +1,37 @@
 # zsh-configs for MacOS
 
-My terminal configurations for MacOS
-
-![スクリーンショット 2024-12-20 午前3 21 57](https://github.com/user-attachments/assets/5baaf1cf-6ce7-4928-979f-5a41f844eb93)
+My terminal configurations for MacOS (Terminal.app and iTerm2)
 
 ## Installation
 
 1. Install [Homebrew](https://brew.sh/)
 
-2. Install Dracula theme [Dracula](https://draculatheme.com/terminal)
+2. Install Dracula theme
 
-3. Set theme
+   **For Terminal.app:**
+   ```bash
+   make install-dracula-terminal
+   ```
+   Then: Terminal → Settings → Profiles → Import `~/themes_terminal/dracula/Dracula.terminal`
 
-  ![スクリーンショット 2024-12-20 午前3 11 11](https://github.com/user-attachments/assets/f147598e-4472-40de-b719-00a62a13078a)
+   **For iTerm2:**
+   ```bash
+   make install-dracula-iterm
+   ```
+   Then: iTerm2 → Settings → Profiles → Colors → Color Presets → Import `~/themes_iterm/dracula/Dracula.itermcolors`
 
-4. Install font
+3. Install font
 
-```bash
-make install-font
-```
+   ```bash
+   make install-font
+   ```
 
-5. Set font
+4. Set font
 
-  ![スクリーンショット 2024-12-23 午前7 00 53](https://github.com/user-attachments/assets/702ae15b-ab74-48e0-9b57-204608735713)
+   - **Terminal.app:** Terminal → Settings → Profiles → Text → Font → Hack Nerd Font
+   - **iTerm2:** iTerm2 → Settings → Profiles → Text → Font → Hack Nerd Font
 
-6. Check Ruby version and upgrade
+5. Check Ruby version and upgrade
 ```
 ruby -v
 ```
@@ -35,17 +42,17 @@ make install-ruby
 exec zsh
 ```
 
-7. Install all
+6. Install all
 
 ```bash
 make install-all
 ```
 
-8. Activate configuration (choose one):
+7. Activate configuration (choose one):
    - Restart your terminal (recommended), OR
    - Run `exec zsh`
 
-9. Change VSCode Terminal Font to Hack Nerd Font
+8. Change VSCode Terminal Font to Hack Nerd Font
 
 ![スクリーンショット 2025-01-12 午後6 25 44](https://github.com/user-attachments/assets/50d8535c-4a22-43c9-9775-07ff7b40fabf)
 

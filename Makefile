@@ -3,6 +3,7 @@
 # ============================================================================
 FONT_NAME_CODE := font-hack-nerd-font
 RUBY_VERSION := 3.3.6
+OPTION :=
 
 # Paths
 HOME_DIR := $(HOME)
@@ -12,12 +13,16 @@ ZSHRC := $(HOME_DIR)/.zshrc
 ZSH_CONFIG := $(HOME_DIR)/.zsh-config
 P10K_CONFIG := $(HOME_DIR)/.p10k.zsh
 STARSHIP_CONFIG := $(CONFIG_DIR)/starship.toml
+THEMES_TERMINAL := $(HOME_DIR)/themes_terminal
+THEMES_ITERM := $(HOME_DIR)/themes_iterm
 
 # Repository URLs
 REPO_AUTOSUGGESTIONS := https://github.com/zsh-users/zsh-autosuggestions.git
 REPO_SYNTAX_HIGHLIGHTING := https://github.com/zsh-users/zsh-syntax-highlighting.git
 REPO_POWERLEVEL10K := https://github.com/romkatv/powerlevel10k.git
 REPO_COLORLS := https://github.com/dracula/colorls.git
+REPO_DRACULA_ITERM := https://github.com/dracula/iterm.git
+REPO_DRACULA_TERMINAL := https://github.com/dracula/terminal-app.git
 
 # Shell paths
 ZSH_SHELL := /bin/zsh
@@ -26,7 +31,7 @@ BASH_SHELL := /bin/bash
 # ============================================================================
 # PHONY Targets
 # ============================================================================
-.PHONY: help install-all remove-all install-font uninstall-font \
+.PHONY: help install-all remove-all install-font uninstall-font install-dracula-iterm install-dracula-terminal \
         install-command-line-tools brew-update install-zsh set-zsh-as-default unset-zsh-as-default remove-zsh \
         install-ruby install-bat uninstall-bat install-starship uninstall-starship install-colorls uninstall-colorls fix-colorls \
         clone-repos remove-cloned-repos setup-starship remove-starship-config setup-powerlevel10k-theme remove-powerlevel10k \
@@ -43,7 +48,7 @@ help: ## Display available commands
 # ============================================================================
 # Main Installation & Removal Targets
 # ============================================================================
-install-all: ## Install complete zsh environment
+install-all: ## Install complete zsh environment (OPTION=iterm2 for iTerm2)
 	@make install-command-line-tools
 	@make brew-update
 	@make install-zsh
@@ -57,6 +62,9 @@ install-all: ## Install complete zsh environment
 	@make setup-starship
 	@make setup-powerlevel10k-theme
 	@make setup-zsh-2
+ifeq ($(OPTION),iterm2)
+	@make install-dracula-iterm
+endif
 	@echo ""
 	@make text-success MESSAGE="Installation complete!"
 	@echo ""
@@ -108,6 +116,50 @@ uninstall-font: ## Uninstall Nerd Font (args: FONT_NAME_CODE)
 	@make text-info MESSAGE="Uninstalling font..."
 	@brew uninstall --cask $(FONT_NAME_CODE)
 	@make text-success MESSAGE="Font uninstalled successfully"
+
+install-dracula-iterm: ## Install Dracula theme for iTerm2
+	@make text-info MESSAGE="Cloning Dracula theme for iTerm2..."
+	@mkdir -p $(THEMES_ITERM)
+	@if [ -d "$(THEMES_ITERM)/dracula" ]; then \
+		make text-warning MESSAGE="Dracula iTerm2 theme already exists at ~/themes_iterm/dracula"; \
+	else \
+		git clone $(REPO_DRACULA_ITERM) $(THEMES_ITERM)/dracula; \
+		make text-success MESSAGE="Dracula iTerm2 theme cloned to ~/themes_iterm/dracula"; \
+	fi
+	@echo ""
+	@echo "\033[1;33m[NEXT STEPS]\033[0m To apply the iTerm2 theme:"
+	@echo "  1. Open iTerm2 -> Settings -> Profiles -> Colors"
+	@echo "  2. Click 'Color Presets...' -> Import"
+	@echo "  3. Select: ~/themes_iterm/dracula/Dracula.itermcolors"
+	@echo "  4. Click 'Color Presets...' -> Dracula"
+	@echo ""
+	@echo "\033[1;33m[FONT SETUP]\033[0m To set Hack Nerd Font:"
+	@echo "  1. Open iTerm2 -> Settings -> Profiles -> Text"
+	@echo "  2. Click 'Font' and select 'Hack Nerd Font'"
+	@echo "  3. Recommended size: 24pt"
+	@echo ""
+
+install-dracula-terminal: ## Install Dracula theme for Terminal.app
+	@make text-info MESSAGE="Cloning Dracula theme for Terminal.app..."
+	@mkdir -p $(THEMES_TERMINAL)
+	@if [ -d "$(THEMES_TERMINAL)/dracula" ]; then \
+		make text-warning MESSAGE="Dracula Terminal theme already exists at ~/themes_terminal/dracula"; \
+	else \
+		git clone $(REPO_DRACULA_TERMINAL) $(THEMES_TERMINAL)/dracula; \
+		make text-success MESSAGE="Dracula Terminal theme cloned to ~/themes_terminal/dracula"; \
+	fi
+	@echo ""
+	@echo "\033[1;33m[NEXT STEPS]\033[0m To apply the Terminal.app theme:"
+	@echo "  1. Open Terminal -> Settings -> Profiles"
+	@echo "  2. Click the gear icon -> Import"
+	@echo "  3. Select: ~/themes_terminal/dracula/Dracula.terminal"
+	@echo "  4. Set Dracula as default profile"
+	@echo ""
+	@echo "\033[1;33m[FONT SETUP]\033[0m To set Hack Nerd Font:"
+	@echo "  1. Open Terminal -> Settings -> Profiles -> Dracula -> Text"
+	@echo "  2. Click 'Change...' next to Font"
+	@echo "  3. Select 'Hack Nerd Font', size 24pt"
+	@echo ""
 
 # ============================================================================
 # Shell Installation & Configuration

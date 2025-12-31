@@ -66,12 +66,12 @@ The `install-all` target follows this sequence:
 - Ruby 3.0+ (for colorls gem)
 - rbenv (Ruby version manager)
 - Hack Nerd Font (for icon display)
-- Dracula Terminal theme (manual installation)
+- Dracula theme for Terminal.app or iTerm2 (manual installation)
 
 ## Important Notes
 
 - The repository modifies ~/.zshrc by adding rbenv PATH and sourcing ~/.zsh-config
-- Font installation requires manual theme selection in Terminal preferences
+- Font installation requires manual font selection in Terminal.app or iTerm2 preferences
 - Ruby version must be 3.0+ for colorls compatibility
 - All make targets use @ prefix for cleaner output, showing only colored status messages
 - The Makefile defines FONT_NAME_CODE and RUBY_VERSION as configurable variables at the top
