@@ -68,6 +68,10 @@ The `install-all` target follows this sequence:
 - Hack Nerd Font (for icon display)
 - Dracula theme for Terminal.app or iTerm2 (manual installation)
 
+## Git Commits
+
+- Do not add Claude Code attribution or Co-Authored-By lines to commit messages
+
 ## Important Notes
 
 - The repository modifies ~/.zshrc by adding rbenv PATH and sourcing ~/.zsh-config
