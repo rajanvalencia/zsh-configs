@@ -1,0 +1,9 @@
+# Ghostty configuration
+# Syntax: key = value (one per line, comments on their own line)
+# Docs: https://ghostty.org/docs/config
+
+theme = Dracula
+language = en
+font-size = 24
+font-family = Hack Nerd Font
+cursor-style = block
