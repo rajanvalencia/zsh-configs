@@ -29,7 +29,6 @@ REPO_POWERLEVEL10K="https://github.com/romkatv/powerlevel10k.git"
 REPO_DRACULA_TERMINAL="https://github.com/dracula/terminal-app.git"
 
 # Selections (overridable by flags / prompts)
-TERMINAL="ghostty"      # ghostty | terminal
 DO_APPS=1               # Supacode, VSCodium
 DO_LANGS=1              # bun, nvm, go, gvm, php, php-version, composer, laravel, herd
 DO_CLI=1                # aws-cli, openssh
@@ -41,8 +40,12 @@ ASSUME_YES=0
 if [ -t 1 ]; then
   C_INFO=$'\033[1;34m'; C_OK=$'\033[1;32m'; C_WARN=$'\033[1;33m'
   C_ERR=$'\033[1;31m'; C_DIM=$'\033[2m'; C_RST=$'\033[0m'
+  # Dracula accents for the interactive menus
+  C_ACC=$'\033[38;5;141m'; C_NUM=$'\033[38;5;117m'; C_PROMPT=$'\033[38;5;212m'
+  C_BOLD=$'\033[1m'; C_GREEN=$'\033[38;5;84m'
 else
   C_INFO=""; C_OK=""; C_WARN=""; C_ERR=""; C_DIM=""; C_RST=""
+  C_ACC=""; C_NUM=""; C_PROMPT=""; C_BOLD=""; C_GREEN=""
 fi
 info()    { printf '%s[INFO]%s %s\n'    "$C_INFO" "$C_RST" "$*"; }
 success() { printf '%s[SUCCESS]%s %s\n' "$C_OK"   "$C_RST" "$*"; }
@@ -253,29 +256,79 @@ fg_set_zsh_default() {
 # ---------------------------------------------------------------------------
 # Prompts (read from /dev/tty so they work under `curl ... | bash`)
 # ---------------------------------------------------------------------------
-ask_yn() { # $1 prompt, $2 default (y/n)
-  [ "$ASSUME_YES" -eq 1 ] && return 0
-  local ans
-  read -r -p "$1 [$2]: " ans </dev/tty 2>/dev/null || ans=""
-  ans="${ans:-$2}"
-  [[ "$ans" =~ ^[Yy] ]]
+# menu <title> <default-num> <opt1> [opt2 ...]  →  echoes chosen number.
+# Renders a bordered, colored menu to /dev/tty; only the answer goes to stdout.
+menu() {
+  local title="$1" def="$2"; shift 2
+  {
+    printf '\n  %s╭───%s %s%s%s\n'   "$C_ACC" "$C_RST" "$C_BOLD" "$title" "$C_RST"
+    printf   '  %s│%s\n'             "$C_ACC" "$C_RST"
+    local i=1 o
+    for o in "$@"; do
+      if [ "$i" = "$def" ]; then
+        printf '  %s│%s   %s%d%s  %s %s← default%s\n' "$C_ACC" "$C_RST" "$C_NUM" "$i" "$C_RST" "$o" "$C_DIM" "$C_RST"
+      else
+        printf '  %s│%s   %s%d%s  %s\n'               "$C_ACC" "$C_RST" "$C_NUM" "$i" "$C_RST" "$o"
+      fi
+      i=$((i + 1))
+    done
+    printf '  %s│%s\n'               "$C_ACC" "$C_RST"
+    printf '  %s╰─%s%s❯%s '          "$C_ACC" "$C_RST" "$C_PROMPT" "$C_RST"
+  } >/dev/tty
+  local ans; read -r ans </dev/tty 2>/dev/null || ans=""
+  echo "${ans:-$def}"
+}
+
+# Interactive checkbox list. Reads CB_LABELS[] and CB_STATE[] (1/0) globals;
+# ↑/↓ (or j/k) move, space toggles, enter confirms. Result written to CB_STATE[].
+checkbox_menu() {
+  local title="$1" n=${#CB_LABELS[@]} cur=0 first=1 key rest i box ptr
+  {
+    printf '\n  %s╭───%s %s%s%s\n' "$C_ACC" "$C_RST" "$C_BOLD" "$title" "$C_RST"
+    printf '  %s│%s  %s↑/↓ move · space toggle · enter confirm%s\n' "$C_ACC" "$C_RST" "$C_DIM" "$C_RST"
+    printf '\033[?25l'
+  } >/dev/tty
+  while true; do
+    # Redraw: after the first pass, jump up N lines and erase to end of display
+    # (\033[J) to wipe the whole region before reprinting — immune to leftovers.
+    if [ "$first" -eq 1 ]; then first=0; else printf '\033[%dA\r\033[J' "$n" >/dev/tty; fi
+    for ((i = 0; i < n; i++)); do
+      if [ "${CB_STATE[$i]:-0}" -eq 1 ]; then box="${C_GREEN}[x]${C_RST}"; else box="[ ]"; fi
+      if [ "$i" -eq "$cur" ]; then ptr="${C_PROMPT}❯${C_RST}"; else ptr=" "; fi
+      printf '  %s│%s  %s %s  %s\n' "$C_ACC" "$C_RST" "$ptr" "$box" "${CB_LABELS[$i]}" >/dev/tty
+    done
+    # Read one byte. If it's ESC, pull the 2 trailing bytes of the arrow escape
+    # sequence (ESC [ A / ESC O A). No fractional -t timeout here: macOS ships
+    # bash 3.2, which rejects it — arrow keys always deliver all 3 bytes anyway.
+    IFS= read -rsn1 key </dev/tty || break
+    if [ "$key" = $'\033' ]; then
+      IFS= read -rsn2 rest </dev/tty 2>/dev/null || rest=""
+      key+="$rest"
+    fi
+    case "$key" in
+      $'\033[A'|$'\033OA'|k|K) cur=$(((cur - 1 + n) % n)) ;;
+      $'\033[B'|$'\033OB'|j|J) cur=$(((cur + 1) % n)) ;;
+      ' ')                     CB_STATE[$cur]=$((1 - ${CB_STATE[$cur]:-0})) ;;
+      '')                      break ;;
+    esac
+  done
+  { printf '\033[?25h'; printf '  %s╰─%s\n' "$C_ACC" "$C_RST"; } >/dev/tty
 }
 
 prompt_options() {
   [ "$ASSUME_YES" -eq 1 ] && return 0
 
-  printf '\n%sWhich terminal do you want to configure?%s\n' "$C_INFO" "$C_RST" >/dev/tty
-  printf '  1) Ghostty (default)\n  2) Terminal.app\n' >/dev/tty
-  local t; read -r -p 'Choice [1]: ' t </dev/tty 2>/dev/null || t=""
-  case "${t:-1}" in 2) TERMINAL="terminal" ;; *) TERMINAL="ghostty" ;; esac
-
-  printf '\n%sInstall mode?%s\n' "$C_INFO" "$C_RST" >/dev/tty
-  printf '  1) Everything (recommended)\n  2) Custom\n' >/dev/tty
-  local m; read -r -p 'Choice [1]: ' m </dev/tty 2>/dev/null || m=""
-  if [ "${m:-1}" = "2" ]; then
-    ask_yn "Install apps (Supacode, VSCodium)?"                              "y" && DO_APPS=1  || DO_APPS=0
-    ask_yn "Install dev toolchain (Bun, Node, Go, PHP, Composer, Laravel)?"  "y" && DO_LANGS=1 || DO_LANGS=0
-    ask_yn "Install CLI tools (aws-cli, openssh)?"                           "y" && DO_CLI=1   || DO_CLI=0
+  if [ "$(menu 'Install mode?' 1 'Everything (recommended)' 'Custom — pick components')" = "2" ]; then
+    CB_LABELS=(
+      "Apps  (Supacode, VSCodium)"
+      "Dev toolchain  (Bun, Node, Go, PHP, Composer, Laravel, Herd)"
+      "CLI tools  (aws-cli, openssh)"
+    )
+    CB_STATE=(1 1 1)
+    checkbox_menu 'Select components — space to toggle'
+    DO_APPS="${CB_STATE[0]}"
+    DO_LANGS="${CB_STATE[1]}"
+    DO_CLI="${CB_STATE[2]}"
   fi
 }
 
@@ -295,11 +348,8 @@ build_plan() {
   add_step "Clone zsh plugins"              clone_repos
   add_step "Install Hack Nerd Font"         install_font
 
-  if [ "$TERMINAL" = "ghostty" ]; then
-    add_step "Install Ghostty"              install_ghostty
-  else
-    add_step "Install Dracula (Terminal.app)" install_dracula_terminal
-  fi
+  add_step "Install Ghostty"                install_ghostty
+  add_step "Install Dracula (Terminal.app)" install_dracula_terminal
 
   if [ "$DO_CLI" -eq 1 ]; then
     add_step "Install aws-cli"              install_awscli
@@ -326,7 +376,7 @@ build_plan() {
 
   add_step "Set up Starship config"         setup_starship
   add_step "Set up eza theme"               setup_eza
-  [ "$TERMINAL" = "ghostty" ] && add_step "Set up Ghostty config" setup_ghostty
+  add_step "Set up Ghostty config"          setup_ghostty
   add_step "Set up Powerlevel10k theme"     setup_p10k
   add_step "Set up .zsh-config & .zshrc"    setup_zsh_config
 }
@@ -337,13 +387,10 @@ print_next_steps() {
   echo ""
   printf '%s[NEXT STEPS]%s\n' "$C_WARN" "$C_RST"
   echo "  1. Restart your terminal (or run: exec zsh)"
-  if [ "$TERMINAL" = "ghostty" ]; then
-    echo "  2. Open Ghostty — it is already themed via ~/.config/ghostty/config"
-  else
-    echo "  2. Terminal.app → Settings → Profiles → import ~/themes_terminal/dracula/Dracula.terminal,"
-    echo "     set it default, and choose 'Hack Nerd Font' under Text."
-  fi
-  [ "$DO_APPS" -eq 1 ] && echo "  3. VSCodium is themed with Dracula + Hack Nerd Font automatically."
+  echo "  2. Ghostty is already themed via ~/.config/ghostty/config — just open it"
+  echo "  3. Terminal.app → Settings → Profiles → import ~/themes_terminal/dracula/Dracula.terminal,"
+  echo "     set it default, and choose 'Hack Nerd Font' under Text"
+  [ "$DO_APPS" -eq 1 ] && echo "  4. VSCodium is themed with Dracula + Hack Nerd Font automatically"
   echo ""
 }
 
@@ -354,7 +401,6 @@ zsh-configs installer
 Usage: ./install.sh [options]
 
 Options:
-  --terminal=ghostty|terminal   Pick the terminal to configure (default: ghostty)
   --no-apps                     Skip Supacode + VSCodium
   --no-langs                    Skip the dev toolchain
   --no-cli                      Skip aws-cli + openssh
@@ -368,7 +414,6 @@ EOF
 main() {
   for arg in "$@"; do
     case "$arg" in
-      --terminal=*) TERMINAL="${arg#*=}" ;;
       --no-apps)    DO_APPS=0 ;;
       --no-langs)   DO_LANGS=0 ;;
       --no-cli)     DO_CLI=0 ;;
@@ -399,7 +444,6 @@ main() {
 
   prompt_options
 
-  info "Configuring terminal: ${TERMINAL}"
   fg_command_line_tools
   fg_set_zsh_default
 
@@ -417,4 +461,6 @@ main() {
   print_next_steps
 }
 
-main "$@"
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  main "$@"
+fi
