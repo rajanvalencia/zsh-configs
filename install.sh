@@ -250,11 +250,36 @@ install_dracula_terminal() {
 
 # Foreground steps (may need a GUI dialog or a password prompt — no spinner).
 fg_command_line_tools() {
-  if xcode-select -p >/dev/null 2>&1; then
-    info "Command line tools already installed"
-  else
+  if ! xcode-select -p >/dev/null 2>&1; then
     info "Installing command line tools (follow the GUI prompt)..."
     xcode-select --install || true
+    return
+  fi
+
+  # CLT exists — make sure it isn't stale for the running macOS. Apple aligned
+  # CLT major versions with the macOS major at 26, so an older CLT major means
+  # Homebrew will later abort with "Your Command Line Tools are too outdated."
+  local os_major clt_ver clt_major
+  os_major="$(sw_vers -productVersion 2>/dev/null | cut -d. -f1)"
+  clt_ver="$(pkgutil --pkg-info=com.apple.pkg.CLTools_Executables 2>/dev/null | awk '/^version:/ {print $2}')"
+  clt_major="${clt_ver%%.*}"
+
+  if [ -n "$os_major" ] && [ -n "$clt_major" ] && [ "$clt_major" -lt "$os_major" ] 2>/dev/null; then
+    warn "Command line tools (v${clt_ver}) are outdated for macOS ${os_major}; reinstalling (you may be prompted for your password)..."
+    sudo rm -rf /Library/Developer/CommandLineTools
+    xcode-select --install || true
+    info "Waiting for the command line tools install to finish (complete the GUI prompt)..."
+    while :; do
+      clt_ver="$(pkgutil --pkg-info=com.apple.pkg.CLTools_Executables 2>/dev/null | awk '/^version:/ {print $2}')"
+      clt_major="${clt_ver%%.*}"
+      if xcode-select -p >/dev/null 2>&1 && [ -n "$clt_major" ] && [ "$clt_major" -ge "$os_major" ] 2>/dev/null; then
+        success "Command line tools updated (v${clt_ver})"
+        break
+      fi
+      sleep 5
+    done
+  else
+    info "Command line tools already installed (v${clt_ver:-unknown})"
   fi
 }
 fg_set_zsh_default() {
