@@ -1,7 +1,8 @@
 {
   "workbench.colorTheme": "Dracula",
   "editor.fontFamily": "Hack Nerd Font, Menlo, Monaco, 'Courier New', monospace",
-  "editor.fontSize": 14,
+  "editor.fontSize": 17,
   "terminal.integrated.fontFamily": "Hack Nerd Font",
-  "terminal.integrated.fontSize": 14
+  "terminal.integrated.fontSize": 17,
+  "window.zoomLevel": 2
 }
