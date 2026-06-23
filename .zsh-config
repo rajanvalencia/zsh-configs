@@ -24,7 +24,7 @@ eval "$(starship init zsh)"
 # eza (modern ls) — Dracula theme lives in ~/.config/eza/theme.yml
 export EZA_CONFIG_DIR="${HOME}/.config/eza"
 
-alias ls="eza -a --icons --tree --level=1"
+alias ls="eza -a --icons --group-directories-first --tree --level=1"
 alias cat="bat --theme=Dracula"
 
 # ---------------------------------------------------------------------------
