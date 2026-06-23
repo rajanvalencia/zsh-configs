@@ -162,8 +162,21 @@ ensure_codium_cli() {
 }
 
 setup_vscodium() {
-  command -v codium >/dev/null 2>&1 && \
-    codium --install-extension dracula-theme.theme-dracula --force >/dev/null 2>&1 || true
+  local extensions=(
+    dracula-theme.theme-dracula      # Dracula Theme Official
+    pkief.material-icon-theme        # Material Icon Theme
+    golang.go                        # Go
+    a-h.templ                        # templ-vscode
+    hashicorp.terraform              # HashiCorp Terraform
+    bmewburn.vscode-intelephense-client  # PHP Intelephense
+    laravel.vscode-laravel           # Laravel
+  )
+  if command -v codium >/dev/null 2>&1; then
+    local ext
+    for ext in "${extensions[@]}"; do
+      codium --install-extension "$ext" --force >/dev/null 2>&1 || true
+    done
+  fi
 
   local dir="${HOME}/Library/Application Support/VSCodium/User"
   local target="${dir}/settings.json"
