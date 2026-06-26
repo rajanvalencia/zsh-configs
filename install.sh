@@ -265,19 +265,15 @@ fg_command_line_tools() {
   clt_major="${clt_ver%%.*}"
 
   if [ -n "$os_major" ] && [ -n "$clt_major" ] && [ "$clt_major" -lt "$os_major" ] 2>/dev/null; then
-    warn "Command line tools (v${clt_ver}) are outdated for macOS ${os_major}; reinstalling (you may be prompted for your password)..."
-    sudo rm -rf /Library/Developer/CommandLineTools
-    xcode-select --install || true
-    info "Waiting for the command line tools install to finish (complete the GUI prompt)..."
-    while :; do
-      clt_ver="$(pkgutil --pkg-info=com.apple.pkg.CLTools_Executables 2>/dev/null | awk '/^version:/ {print $2}')"
-      clt_major="${clt_ver%%.*}"
-      if xcode-select -p >/dev/null 2>&1 && [ -n "$clt_major" ] && [ "$clt_major" -ge "$os_major" ] 2>/dev/null; then
-        success "Command line tools updated (v${clt_ver})"
-        break
-      fi
-      sleep 5
-    done
+    warn "Command line tools (v${clt_ver}) are too old for macOS ${os_major}."
+    warn "Homebrew will refuse to run until they are updated. Please update them yourself:"
+    info "  1. sudo rm -rf /Library/Developer/CommandLineTools"
+    info "  2. xcode-select --install   (complete the GUI prompt)"
+    info "     — or update via  System Settings ▸ General ▸ Software Update"
+    info "       (or: softwareupdate --all --install --force)"
+    info "Then re-run ./install.sh once the update finishes."
+    error "Aborting: command line tools must be updated first."
+    exit 1
   else
     info "Command line tools already installed (v${clt_ver:-unknown})"
   fi
