@@ -117,7 +117,6 @@ brew_cask() {
 brew_update()      { brew update; }
 install_zsh()      { brew_formula zsh; }
 install_bat()      { brew_formula bat; }
-install_starship() { brew_formula starship; }
 install_eza()      { brew_formula eza; }
 install_jq()       { brew_formula jq; }
 install_ghostty()  { brew_cask ghostty /Applications/Ghostty.app; }
@@ -211,7 +210,6 @@ clone_repos() {
   git clone --depth 1 "$REPO_POWERLEVEL10K"       "${ZSH_DIR}/powerlevel10k"
 }
 
-setup_starship() { mkdir -p "$CONFIG_DIR"; cp "${SCRIPT_DIR}/starship.toml" "${CONFIG_DIR}/starship.toml"; }
 setup_ghostty()  { mkdir -p "${CONFIG_DIR}/ghostty"; cp "${SCRIPT_DIR}/ghostty/config" "${CONFIG_DIR}/ghostty/config"; }
 setup_eza()      { mkdir -p "${CONFIG_DIR}/eza"; cp "${SCRIPT_DIR}/eza/theme.yml" "${CONFIG_DIR}/eza/theme.yml"; }
 setup_p10k()     { cp "${SCRIPT_DIR}/.p10k.zsh" "$P10K_CONFIG"; }
@@ -376,7 +374,6 @@ build_plan() {
   add_step "Update Homebrew"                brew_update
   add_step "Install zsh"                    install_zsh
   add_step "Install bat"                    install_bat
-  add_step "Install Starship"               install_starship
   add_step "Install eza"                    install_eza
   add_step "Install jq"                     install_jq
   add_step "Clone zsh plugins"              clone_repos
@@ -408,7 +405,6 @@ build_plan() {
     add_step "Configure VSCodium"           setup_vscodium
   fi
 
-  add_step "Set up Starship config"         setup_starship
   add_step "Set up eza theme"               setup_eza
   add_step "Set up Ghostty config"          setup_ghostty
   add_step "Set up Powerlevel10k theme"     setup_p10k

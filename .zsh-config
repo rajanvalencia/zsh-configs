@@ -18,9 +18,6 @@ source "${HOME}/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
 # powerlevel10k
 source "${HOME}/.zsh/powerlevel10k/powerlevel10k.zsh-theme"
 
-# starship init
-eval "$(starship init zsh)"
-
 # eza (modern ls) — Dracula theme lives in ~/.config/eza/theme.yml
 export EZA_CONFIG_DIR="${HOME}/.config/eza"
 
