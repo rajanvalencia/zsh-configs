@@ -277,11 +277,24 @@ fg_command_line_tools() {
   fi
 }
 fg_set_zsh_default() {
-  if [ "${SHELL:-}" = "/bin/zsh" ] || [ "${SHELL:-}" = "$(command -v zsh)" ]; then
-    info "zsh is already the default shell"
+  local zsh_path login_shell
+  zsh_path="$(command -v zsh)"
+  # $SHELL is inherited and goes stale after chsh; read the account record instead.
+  login_shell="$(dscl . -read "/Users/${USER}" UserShell 2>/dev/null | awk '{print $2}')"
+  case "${login_shell:-$SHELL}" in
+    */zsh) info "zsh is already the default shell (${login_shell:-$SHELL})"; return 0 ;;
+  esac
+  # chsh rejects shells not listed in /etc/shells (e.g. Homebrew's zsh).
+  if ! grep -qx "$zsh_path" /etc/shells; then
+    info "Adding ${zsh_path} to /etc/shells (you may be prompted for your password)..."
+    echo "$zsh_path" | sudo tee -a /etc/shells >/dev/null || zsh_path="/bin/zsh"
+  fi
+  info "Setting zsh as default shell (you may be prompted for your password)..."
+  if chsh -s "$zsh_path"; then
+    warn "Quit and reopen running terminal apps (Ghostty, Orca, VSCodium, ...) so they pick up zsh;"
+    warn "apps that keep a background daemon (e.g. Orca) may need a logout/login."
   else
-    info "Setting zsh as default shell (you may be prompted for your password)..."
-    chsh -s "$(command -v zsh)" || warn "Could not change shell automatically; run: chsh -s $(command -v zsh)"
+    warn "Could not change shell automatically; run: chsh -s ${zsh_path}"
   fi
 }
 
