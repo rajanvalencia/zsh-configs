@@ -2,7 +2,7 @@
 
 # zsh-configs for macOS
 
-A one-command setup for a beautiful, fast macOS terminal — Powerlevel10k, Starship,
+A one-command setup for a beautiful, fast macOS terminal — Powerlevel10k,
 Ghostty, the Dracula theme and a full developer toolchain.
 
 [Quick Start](#quick-start) · [Features](#features) · [What gets installed](#what-gets-installed) · [Customization](#customization)
@@ -53,7 +53,7 @@ progress for each step.
 ## Features
 
 **Shell & terminal**
-- 🎨 Powerlevel10k + Starship prompt
+- 🎨 Powerlevel10k prompt
 - ✨ Syntax highlighting & autosuggestions
 - 📁 [eza](https://github.com/eza-community/eza) (modern `ls` with icons + tree) · 🐱 [bat](https://github.com/sharkdp/bat) (`cat` with syntax highlighting)
 - 👻 [Ghostty](https://ghostty.org) terminal · 🔤 Hack Nerd Font · 🧛 Dracula theme
@@ -73,7 +73,7 @@ progress for each step.
 
 | Tool | Purpose |
 | --- | --- |
-| Powerlevel10k / Starship | Prompt theming |
+| Powerlevel10k | Prompt theming |
 | zsh-autosuggestions / zsh-syntax-highlighting | Shell quality-of-life |
 | eza / bat | Modern `ls` / `cat` |
 | Ghostty | Terminal (themed via `~/.config/ghostty/config`) |
