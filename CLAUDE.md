@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a macOS terminal configuration repository that sets up a customized zsh environment with the Powerlevel10k theme, syntax highlighting, autosuggestions, and `eza`. It also installs the Ghostty terminal, the Dracula theme, Hack Nerd Font, a set of apps (Supacode, VSCodium), and a developer toolchain (Bun, Node/nvm, Go/gvm, PHP/php-version, Composer, Laravel + Herd, aws-cli, openssh) plus the Claude Code and Codex CLIs. Everything is driven by a single interactive `install.sh`.
+This is a macOS terminal configuration repository that sets up a customized zsh environment with the Powerlevel10k theme, syntax highlighting, autosuggestions, and `eza`. It also installs the Ghostty terminal, the Dracula theme, Hack Nerd Font, a set of apps (Supacode, VSCodium), and a developer toolchain (Bun, Node/nvm, Go/gvm, PHP/php-version, Composer, Laravel + Herd, aws-cli, openssh, gh) plus the Claude Code and Codex CLIs. Everything is driven by a single interactive `install.sh`.
 
 ## Key Commands
 

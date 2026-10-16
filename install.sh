@@ -31,7 +31,7 @@ REPO_DRACULA_TERMINAL="https://github.com/dracula/terminal-app.git"
 # Selections (overridable by flags / prompts)
 DO_APPS=1               # Supacode, VSCodium
 DO_LANGS=1              # bun, nvm, go, gvm, php, php-version, composer, laravel, herd
-DO_CLI=1                # aws-cli, openssh, Claude Code, Codex
+DO_CLI=1                # aws-cli, openssh, gh, Claude Code, Codex
 ASSUME_YES=0
 
 # ---------------------------------------------------------------------------
@@ -124,6 +124,7 @@ install_font()     { brew_cask "$FONT_NAME_CODE"; }
 
 install_awscli()   { brew_formula awscli; }
 install_openssh()  { brew_formula openssh; }
+install_gh()       { brew_formula gh; }
 
 # AI coding CLIs. Skip when already on PATH (e.g. Claude Code's native
 # installer puts it in ~/.local/bin) so we don't end up with two copies.
@@ -378,7 +379,7 @@ prompt_options() {
     CB_LABELS=(
       "Apps  (Supacode, VSCodium)"
       "Dev toolchain  (Bun, Node, Go, PHP, Composer, Laravel, Herd)"
-      "CLI tools  (aws-cli, openssh, Claude Code, Codex)"
+      "CLI tools  (aws-cli, openssh, gh, Claude Code, Codex)"
     )
     CB_STATE=(1 1 1)
     checkbox_menu 'Select components — space to toggle'
@@ -409,6 +410,7 @@ build_plan() {
   if [ "$DO_CLI" -eq 1 ]; then
     add_step "Install aws-cli"              install_awscli
     add_step "Install OpenSSH"              install_openssh
+    add_step "Install GitHub CLI"           install_gh
     add_step "Install Claude Code"          install_claude_code
     add_step "Install Codex CLI"            install_codex
   fi
@@ -459,7 +461,7 @@ Usage: ./install.sh [options]
 Options:
   --no-apps                     Skip Supacode + VSCodium
   --no-langs                    Skip the dev toolchain
-  --no-cli                      Skip aws-cli, openssh, Claude Code + Codex
+  --no-cli                      Skip aws-cli, openssh, gh, Claude Code + Codex
   -y, --yes                     Non-interactive; accept all defaults
   -h, --help                    Show this help
 
