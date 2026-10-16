@@ -65,7 +65,7 @@ progress for each step.
 - 🥟 Bun · ⬢ Node (nvm) · 🐹 Go (gvm) · 🐘 PHP (php-version) · 🎼 Composer · 🅻 Laravel + Laravel Herd
 
 **CLI**
-- ☁️ aws-cli · 🔐 openssh · 🐙 [GitHub CLI](https://cli.github.com) · 🤖 [Claude Code](https://claude.com/product/claude-code) · 🧠 [Codex CLI](https://github.com/openai/codex)
+- ☁️ aws-cli · 🔐 openssh · 🐙 [GitHub CLI](https://cli.github.com) · 🤖 [Claude Code](https://claude.com/product/claude-code) · 📊 [ccusage](https://github.com/ccusage/ccusage) · 🧠 [Codex CLI](https://github.com/openai/codex)
 
 ---
 
@@ -83,6 +83,7 @@ progress for each step.
 | PHP / php-version / Composer / Laravel / Herd | PHP & Laravel toolchain |
 | aws-cli / openssh / gh | CLI utilities |
 | Claude Code / Codex CLI | AI coding agents in the terminal |
+| ccusage | Claude Code token usage & cost reports |
 
 ---
 

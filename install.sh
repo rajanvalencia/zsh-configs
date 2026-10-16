@@ -31,7 +31,7 @@ REPO_DRACULA_TERMINAL="https://github.com/dracula/terminal-app.git"
 # Selections (overridable by flags / prompts)
 DO_APPS=1               # Supacode, VSCodium
 DO_LANGS=1              # bun, nvm, go, gvm, php, php-version, composer, laravel, herd
-DO_CLI=1                # aws-cli, openssh, gh, Claude Code, Codex
+DO_CLI=1                # aws-cli, openssh, gh, Claude Code, ccusage, Codex
 ASSUME_YES=0
 
 # ---------------------------------------------------------------------------
@@ -132,6 +132,7 @@ install_claude_code() {
   command -v claude >/dev/null 2>&1 || [ -x "${HOME}/.local/bin/claude" ] && return 0
   brew_cask claude-code
 }
+install_ccusage()  { brew_formula ccusage; }
 install_codex() {
   command -v codex >/dev/null 2>&1 && return 0
   brew_cask codex
@@ -379,7 +380,7 @@ prompt_options() {
     CB_LABELS=(
       "Apps  (Supacode, VSCodium)"
       "Dev toolchain  (Bun, Node, Go, PHP, Composer, Laravel, Herd)"
-      "CLI tools  (aws-cli, openssh, gh, Claude Code, Codex)"
+      "CLI tools  (aws-cli, openssh, gh, Claude Code, ccusage, Codex)"
     )
     CB_STATE=(1 1 1)
     checkbox_menu 'Select components — space to toggle'
@@ -412,6 +413,7 @@ build_plan() {
     add_step "Install OpenSSH"              install_openssh
     add_step "Install GitHub CLI"           install_gh
     add_step "Install Claude Code"          install_claude_code
+    add_step "Install ccusage"              install_ccusage
     add_step "Install Codex CLI"            install_codex
   fi
 
@@ -461,7 +463,7 @@ Usage: ./install.sh [options]
 Options:
   --no-apps                     Skip Supacode + VSCodium
   --no-langs                    Skip the dev toolchain
-  --no-cli                      Skip aws-cli, openssh, gh, Claude Code + Codex
+  --no-cli                      Skip aws-cli, openssh, gh, Claude Code, ccusage + Codex
   -y, --yes                     Non-interactive; accept all defaults
   -h, --help                    Show this help
 
