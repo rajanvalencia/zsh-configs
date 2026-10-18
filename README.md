@@ -57,6 +57,8 @@ progress for each step.
 - ✨ Syntax highlighting & autosuggestions
 - 📁 [eza](https://github.com/eza-community/eza) (modern `ls` with icons + tree) · 🐱 [bat](https://github.com/sharkdp/bat) (`cat` with syntax highlighting)
 - 👻 [Ghostty](https://ghostty.org) terminal · 🔤 Hack Nerd Font · 🧛 Dracula theme
+- 🤖 `claude --yolo` shorthand for `claude --dangerously-skip-permissions`
+- 🌿 `git nuke-branches` alias — force-deletes every local branch except `main`
 
 **Apps**
 - 🧑‍💻 [Supacode](https://supacode.sh) · 🆚 [VSCodium](https://vscodium.com) (auto-themed with Dracula + Hack Nerd Font)

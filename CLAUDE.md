@@ -34,10 +34,11 @@ Key implementation details:
 - `manage_zshrc` maintains a single managed block delimited by `# >>> zsh-configs >>>` / `# <<< zsh-configs <<<`, stripping old blocks, stray `source ~/.zsh-config` lines, and the legacy rbenv PATH line; backs up to `~/.zshrc.bak`.
 
 ### Configuration Files
-- `.zsh-config`: Main zsh config sourced by `.zshrc` via the managed block. Loads plugins, Powerlevel10k, the `eza` theme dir (`EZA_CONFIG_DIR`), aliases (`ls` → `eza --icons --tree --level=1`, `cat` → `bat --theme=Dracula`), and guarded dev-env init (nvm, gvm, php-version, Composer/Go PATH, Herd shims).
+- `.zsh-config`: Main zsh config sourced by `.zshrc` via the managed block. Loads plugins, Powerlevel10k, the `eza` theme dir (`EZA_CONFIG_DIR`), aliases (`ls` → `eza --icons --tree --level=1`, `cat` → `bat --theme=Dracula`), a `claude` wrapper that changes `--yolo` to `--dangerously-skip-permissions`, and guarded dev-env init (nvm, gvm, php-version, Composer/Go PATH, Herd shims).
 - `.p10k.zsh`: Powerlevel10k theme configuration (extensive).
 - `ghostty/config`: Ghostty terminal config → `~/.config/ghostty/config`. Self-contained; uses Ghostty's built-in `Dracula` theme (no download).
 - `eza/theme.yml`: eza Dracula theme → `~/.config/eza/theme.yml`.
+- Git aliases: `setup_git_aliases` in `install.sh` sets global git aliases (`git nuke-branches` → force-delete all local branches except `main`).
 - `vscodium/settings.json`: VSCodium settings (Hack Nerd Font + Dracula), deep-merged into the user's settings.
 
 ### Plugin Repositories (cloned to ~/.zsh/)

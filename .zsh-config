@@ -24,6 +24,20 @@ export EZA_CONFIG_DIR="${HOME}/.config/eza"
 alias ls="eza -a --icons --group-directories-first --tree --level=1"
 alias cat="bat --theme=Dracula"
 
+# `claude --yolo` → `claude --dangerously-skip-permissions`
+claude() {
+  local -a args
+  local arg
+  for arg in "$@"; do
+    if [[ "$arg" == "--yolo" ]]; then
+      args+=(--dangerously-skip-permissions)
+    else
+      args+=("$arg")
+    fi
+  done
+  command claude "${args[@]}"
+}
+
 # ---------------------------------------------------------------------------
 # Dev environment (each block no-ops when the tool is not installed)
 # ---------------------------------------------------------------------------

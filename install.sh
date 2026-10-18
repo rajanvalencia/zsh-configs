@@ -227,6 +227,12 @@ setup_ghostty()  { mkdir -p "${CONFIG_DIR}/ghostty"; cp "${SCRIPT_DIR}/ghostty/c
 setup_eza()      { mkdir -p "${CONFIG_DIR}/eza"; cp "${SCRIPT_DIR}/eza/theme.yml" "${CONFIG_DIR}/eza/theme.yml"; }
 setup_p10k()     { cp "${SCRIPT_DIR}/.p10k.zsh" "$P10K_CONFIG"; }
 
+# Global git aliases. `git nuke-branches` force-deletes every local branch except main.
+setup_git_aliases() {
+  git config --global alias.nuke-branches \
+    '!git branch --format="%(refname:short)" | grep -vx main | xargs -r git branch -D'
+}
+
 setup_zsh_config() {
   cp "${SCRIPT_DIR}/.zsh-config" "$ZSH_CONFIG"
   manage_zshrc
@@ -438,6 +444,7 @@ build_plan() {
   add_step "Set up eza theme"               setup_eza
   add_step "Set up Ghostty config"          setup_ghostty
   add_step "Set up Powerlevel10k theme"     setup_p10k
+  add_step "Set up git aliases"             setup_git_aliases
   add_step "Set up .zsh-config & .zshrc"    setup_zsh_config
 }
 
